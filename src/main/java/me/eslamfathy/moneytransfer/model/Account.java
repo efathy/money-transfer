@@ -2,6 +2,7 @@ package me.eslamfathy.moneytransfer.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity(name = "Account")
@@ -11,8 +12,9 @@ public class Account {
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Min(value = 0)
-    @Column(name = "value", columnDefinition = "decimal(15,4) UNSIGNED")
+    @Column(name = "value", precision = 15, scale = 4, nullable = false)
     private BigDecimal balance;
 
     public Long getId() {

@@ -5,7 +5,7 @@ public class AccountNotFoundException extends Exception {
         super(message);
     }
 
-    public AccountNotFoundException(String message, Exception e){
-        super(message, e);
+    public AccountNotFoundException(String message, Exception ex){
+        super(message, ex);
     }
 }
