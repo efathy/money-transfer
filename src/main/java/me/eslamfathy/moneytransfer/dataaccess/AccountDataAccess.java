@@ -1,5 +1,7 @@
 package me.eslamfathy.moneytransfer.dataaccess;
 
+import me.eslamfathy.moneytransfer.exceptions.AccountNotFoundException;
+import me.eslamfathy.moneytransfer.exceptions.TransferFailureException;
 import me.eslamfathy.moneytransfer.model.Account;
 
 import java.math.BigDecimal;
@@ -9,5 +11,5 @@ public interface AccountDataAccess {
 
     Account createAccount(BigDecimal balance);
 
-    boolean transfer(Long sourceId, Long destinationId, BigDecimal value);
+    void transfer(Long sourceId, Long destinationId, BigDecimal value) throws TransferFailureException;
 }

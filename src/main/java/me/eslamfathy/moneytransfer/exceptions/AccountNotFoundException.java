@@ -1,6 +1,6 @@
-package me.eslamfathy.moneytransfer.dataaccess;
+package me.eslamfathy.moneytransfer.exceptions;
 
-public class AccountNotFoundException extends Exception {
+public class AccountNotFoundException extends MoneyTransferException {
     public AccountNotFoundException(String message){
         super(message);
     }
