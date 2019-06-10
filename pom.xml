@@ -27,11 +27,6 @@
 
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>org.flywaydb</groupId>-->
-<!--            <artifactId>flyway-core</artifactId>-->
-<!--            <version>5.2.4</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>javax.persistence-api</artifactId>
@@ -47,11 +42,6 @@
             <artifactId>hibernate-validator</artifactId>
             <version>5.4.3.Final</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>javax.el</groupId>-->
-<!--            <artifactId>javax.el-api</artifactId>-->
-<!--            <version>2.2.4</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>javax.el</artifactId>
@@ -62,7 +52,6 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.199</version>
-<!--            <scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
@@ -102,24 +91,6 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.flywaydb</groupId>-->
-<!--                <artifactId>flyway-maven-plugin</artifactId>-->
-<!--                <version>5.2.4</version>-->
-<!--                <configuration>-->
-<!--                    <url>jdbc:h2:mem:money-transfer</url>-->
-<!--                    &lt;!&ndash;                    <locations>&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        <location>classpath:db/migration</location>&ndash;&gt;-->
-<!--                    &lt;!&ndash;                    </locations>&ndash;&gt;-->
-<!--                </configuration>-->
-<!--                <dependencies>-->
-<!--                    <dependency>-->
-<!--                        <groupId>com.h2database</groupId>-->
-<!--                        <artifactId>h2</artifactId>-->
-<!--                        <version>1.4.191</version>-->
-<!--                    </dependency>-->
-<!--                </dependencies>-->
-<!--            </plugin>-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -132,7 +103,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.example.Main</mainClass>
+                    <mainClass>me.eslamfathy.moneytransfer.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>
