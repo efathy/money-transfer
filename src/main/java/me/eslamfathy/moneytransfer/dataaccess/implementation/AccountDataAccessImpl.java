@@ -1,6 +1,6 @@
 package me.eslamfathy.moneytransfer.dataaccess.implementation;
 
-import me.eslamfathy.moneytransfer.configuration.HibernateUtils;
+import me.eslamfathy.moneytransfer.configuration.HibernateUtil;
 import me.eslamfathy.moneytransfer.dataaccess.AccountDataAccess;
 import me.eslamfathy.moneytransfer.exceptions.AccountNotFoundException;
 import me.eslamfathy.moneytransfer.exceptions.TransferFailureException;
@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public class AccountDataAccessImpl implements AccountDataAccess {
     @Override
     public Account getAccount(Long accountId) throws AccountNotFoundException {
-        try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery(String.format("from Account where id =%d", accountId), Account.class)
                           .getSingleResult();
         } catch (NoResultException e) {
@@ -26,7 +26,7 @@ public class AccountDataAccessImpl implements AccountDataAccess {
     @Override
     public Account createAccount(BigDecimal balance) {
         Account account = new Account(balance);
-        try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             session.save(account);
             transaction.commit();
@@ -39,11 +39,11 @@ public class AccountDataAccessImpl implements AccountDataAccess {
         Transaction transaction = null;
         int subtractResult = 0;
         int additionResult = 0;
-        try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            subtractResult = subtractFromSource(sourceAccountId, value, session);
+            subtractResult = withdraw(sourceAccountId, value, session);
             if (subtractResult > 0) {
-                additionResult = addToDestination(destinationAccountId, value, session);
+                additionResult = deposit(destinationAccountId, value, session);
             }
 
             if (subtractResult > 0 && additionResult > 0) {
@@ -57,22 +57,22 @@ public class AccountDataAccessImpl implements AccountDataAccess {
         }
     }
 
-    private int addToDestination(Long destinationId, BigDecimal value, Session session) {
+    private int deposit(Long accountId, BigDecimal value, Session session) {
         Query query;
         int result;
         query = session.createQuery("update Account set balance = (balance + :value)" +
-                " where id = :destinationId");
+                " where id = :accountId");
         query.setParameter("value", value);
-        query.setParameter("destinationId", destinationId);
+        query.setParameter("accountId", accountId);
         result = query.executeUpdate();
         return result;
     }
 
-    private int subtractFromSource(Long sourceId, BigDecimal value, Session session) {
+    private int withdraw(Long accountId, BigDecimal value, Session session) {
         Query query = session.createQuery("update Account set balance = (balance - :value)" +
-                " where id = :sourceId and balance >= :value");
+                " where id = :accountId and balance >= :value");
         query.setParameter("value", value);
-        query.setParameter("sourceId", sourceId);
+        query.setParameter("accountId", accountId);
         return query.executeUpdate();
     }
 }

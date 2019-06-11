@@ -34,6 +34,7 @@ public class MoneyTransferController {
                     transfer.getId().toString());
             return Response.status(Response.Status.CREATED).entity(moneyTransferResponse)
                            .build();
+
         } catch (MoneyTransferException ex) {
             ex.printStackTrace();
             MoneyTransferResponse moneyTransferResponse = new MoneyTransferResponse(false,

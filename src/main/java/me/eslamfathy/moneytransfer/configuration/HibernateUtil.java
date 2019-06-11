@@ -5,13 +5,14 @@ import me.eslamfathy.moneytransfer.model.Transfer;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
 import java.util.Properties;
 
-public class HibernateUtils {
+public class HibernateUtil {
     private static SessionFactory sessionFactory;
+
+    private HibernateUtil(){}
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
@@ -37,14 +38,15 @@ public class HibernateUtils {
 
     private static Configuration getConfiguration() {
         Configuration configuration = new Configuration();
-        Properties settings = new Properties();
-        settings.put(Environment.DRIVER, "org.h2.Driver");
-        settings.put(Environment.URL, "jdbc:h2:mem:money-transfer");
-        settings.put(Environment.DIALECT, "org.hibernate.dialect.H2Dialect");
-        settings.put(Environment.SHOW_SQL, "true");
-        settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-        settings.put(Environment.HBM2DDL_AUTO, "create-drop");
-        configuration.setProperties(settings);
+        Properties dbConnectionProperties = new Properties();
+        try {
+            dbConnectionProperties.load(HibernateUtil.class.getClassLoader().getSystemClassLoader()
+                                                           .getResourceAsStream("hibernate.properties"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        configuration.setProperties(dbConnectionProperties);
         return configuration;
     }
 }
